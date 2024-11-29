@@ -29,48 +29,44 @@ if (newTask !== ""){
 };
 };
 function deleteAllTasks(){
-
+    todo = [];  
+    saveToLocalStorage();
+    displayTasks();
 };
 function displayTasks() {
     todoList.innerHTML = "";
-
     todo.forEach((item, index) => {
-        const container = document.createElement("div");
-        container.classList.add("todo-container");
+        const p = document.createElement("p");
+        p.innerHTML = `
+            <div class="todo-container">
+                <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
+                <p id="todo-${index}" class="${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</p>
+            </div>`;
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.classList.add("todo-checkbox");
-        checkbox.id = `input-${index}`;
-        checkbox.checked = item.disabled;
-
+        const checkbox = p.querySelector(".todo-checkbox");
         checkbox.addEventListener("change", () => {
             ToggleTask(index);
         });
 
-        const taskText = document.createElement("p");
-        taskText.id = `todo-${index}`;
-        taskText.textContent = item.text;
-        taskText.className = item.disabled ? "disabled" : "";
-
-        taskText.addEventListener("click", () => {
-            editTask(index);
-        });
-
-        container.appendChild(checkbox);
-        container.appendChild(taskText);
-
-        todoList.appendChild(container);
+        todoList.appendChild(p);
     });
-
-    todoCount.textContent = todo.length;
+    let Count= document.getElementById('count')
+    Count.innerHTML = todo.length;
 }
 
-function ToggleTask(index){
-    todo[index].disabled= !todo[index].disabled;
+function ToggleTask(index) {
+    todo[index].disabled = !todo[index].disabled;
     saveToLocalStorage();
     displayTasks();
 }
+
+
+function ToggleTask(index) {
+    todo[index].disabled = !todo[index].disabled;
+    saveToLocalStorage();
+    displayTasks();
+}
+
 function saveToLocalStorage(){
     localStorage.setItem("todo", JSON.stringify(todo))
 };

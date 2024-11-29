@@ -104,7 +104,7 @@ li{
 .disabled{
     display: flex;
     text-decoration: line-through;
-    color: red;
+    color: var(--grey);
 }
 
 input[type="checkbox"]{
